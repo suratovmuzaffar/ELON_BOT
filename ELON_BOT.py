@@ -1230,23 +1230,29 @@ async def receive_payment_screenshot(message: Message, state: FSMContext):
         post_text = f"""
 🇺🇿AKKAUNT SOTILADI💰 #A
 
-🏠 RATUSHA: {data['ratusha']}
-🏆 KUBIK: {data['kubik']}
-🦹 SKIN: {data['skin']}
-🎫 GOLD PASS: {data['gold_pass']}
-🔖 QOSHIMCHA: {data['qoshimcha']}
-♻️ OBMEN: {data['obmen']}
+🏠 RATUSHA:{data['ratusha']}
+🏆 KUBIK:{data['kubik']}
+🦹 SKIN:{data['skin']}
+🎫 GOLD PASS:{data['gold_pass']}
+🔖 QOSHIMCHA:{data['qoshimcha']}
+♻️ OBMEN:{data['obmen']}
 
-📧 ULANGAN: {data['ulang']}
+📧#ULANGAN:{data['ulang']}
 
-💸 NARX: {data['narx']}
-💳 TOLOV: {data['tolov']}
-🏠 MANZIL: {data['manzil']}
-📩 TELEGRAM: {data['telegram']}
-📞 NOMER: {data['nomer']}
-➖➖➖➖➖➖➖➖➖➖
-MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL.
-@SAVDO_GURUH_UZB | @CLASH_OF_CLANS_AKKAUNT_SAVDO_UZB
+💸#NARX:{data['narx']}
+💳#TOLOV:{data['tolov']}
+🏠#MANZIL:{data['manzil']}
+❌ bekordan bekor bezovta qimelar
+📩#TELEGRAM: {data['telegram']}
+📞#NOMER: {data['nomer']}
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL..✔️
+🤝SAVDO GURUH @SAVDO_GURUH_UZB
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+🔰KANALIMIZ🌐
+@CLASH_OF_CLANS_AKKAUNT_SAVDO_UZB
+
+
 📄ELON UCHUN @SAYYAX_ELON
 😎GARANT UCHUN @SAYYAX_GARANT
 💎DANAT UCHUN @SAYYAX_DANAT"""
@@ -1523,20 +1529,35 @@ async def receive_payment_screenshot(message: Message, state: FSMContext):
    full_name = message.from_user.full_name
    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-   post_text = f"""🇺🇿AKKAUNT SOTILADI💰#B\n\n
-   🏆 KUBIK: {data['kubik']}\n
-   🥷 BRAWLER: {data['brawler']}\n
-   🦹 SKIN: {data['skin']}\n
-   🌟 LEGENDARNI: {data['legendarni']}\n
-   🎫 BRWAL PASS: {data['brawl_pass']}\n
-   🔖 QOSHIMCHA: {data['qoshimcha']}\n
-   ♻️ OBMEN: {data['obmen']}\n\n
-   📧#ULANGAN: {data['ulang']}\n\n
-   💸#NARXI: {data['narx']}\n
-   💳#TOLOV: {data['tolov']}\n
-   🏠#MANZIL: {data['manzil']}\n
-   📩#TELEGRAM: {data['telegram']}\n
-   📞#NOMER: {data['nomer']}\n"""
+   post_text = f"""
+🇺🇿AKKAUNT SOTILADI💰#B
+🏆 KUBIK:{data['kubik']}
+🥷 BRAWLER:{data['brawler']}
+🦹 SKIN:{data['skin']}
+🌟 LEGENDARNI:{data['legendarni']}
+🎫 BRWAL PASS:{data['brawl_pass']}
+🔖 QOSHIMCHA:{data['qoshimcha']}
+♻️ OBMEN:{data['obmen']}
+
+📧#ULANGAN:{data['ulang']}
+
+💸#NARXI:{data['narx']}
+💳#TOLOV:{data['tolov']}
+🏠#MANZIL:{data['manzil']}
+❌ bekordan bekor bezovta qimelar
+📩#TELEGRAM:{data['telegram']}
+📞#NOMER:{data['nomer']}
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL..✔️
+🤝SAVDO GURUH @SAVDO_GURUH_UZB
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+🔰KANALIMIZ🌐
+@BRAWL_STARS_AKKAUNT_SAVDO_UZB
+
+
+📄ELON UCHUN @SAYYAX_ELON
+😎GARANT UCHUN @SAYYAX_GARANT
+💎DANAT UCHUN @SAYYAX_DANAT"""
 
    payment_info = f"""
 💳 <b>YANGI TO‘LOV MA'LUMOTI</b>
@@ -1852,27 +1873,32 @@ async def receive_payment_screenshot(message: Message, state: FSMContext):
         post_text = f"""
 🇺🇿AKKAUNT SOTILADI💰 #D
 
-〽️ LVL: {data['lvl']}
-🔫 PROKACHKA: {data['prokachka']}
-🪄 KILCHAT: {data['kilchat']}
-🦹 X-SUIT: {data['xsuit']}
-🧛 ULTIMATE: {data['ultimate']}
-🥷 MIFIK: {data['mifik']}
-🏎 SPORTCAR: {data['sportcar']}
-⚜️ ROYAL PASS: {data['royal_pass']}
-🔖 QOSHIMCHA: {data['qoshimcha']}
-♻️ OBMEN: {data['obmen']}
+〽️ LVL:{data['lvl']}
+🔫 PROKACHKA:{data['prokachka']}
+🪄 KILCHAT:{data['kilchat']}
+🦹 X-SUIT:{data['xsuit']}
+🧛 ULTIMATE:{data['ultimate']}
+🥷 MIFIK:{data['mifik']}
+🏎 SPORTCAR:{data['sportcar']}
+⚜️ ROYAL PASS:{data['royal_pass']}
+🔖 QOSHIMCHA:{data['qoshimcha']}
+♻️ OBMEN:{data['obmen']}
 
-📧 ULANGAN: {data['ulang']}
+📧#ULANGAN:{data['ulang']}
 
-💸 NARX: {data['narx']}
-💳 TOLOV: {data['tolov']}
-🏠 MANZIL: {data['manzil']}
-📩 TELEGRAM: {data['telegram']}
-📞 NOMER: {data['nomer']}
-➖➖➖➖➖➖➖➖➖➖
-MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL.
-@SAVDO_GURUH_UZB | @PUBG_MOBILE_AKKAUNT_SAVDO_UZB
+💸#NARX:{data['narx']}
+💳#TOLOV:{data['tolov']}
+🏠#MANZIL:{data['manzil']}
+📩#TELEGRAM:{data['telegram']}
+📞#NOMER:{data['nomer']}
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL..✔️
+🤝 SAVDO GURUH @SAVDO_GURUH_UZB
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+🔰KANALIMIZ🌐
+@PUBG_MOBILE_AKKAUNT_SAVDO_UZ
+
+
 📄ELON UCHUN @SAYYAX_ELON
 😎GARANT UCHUN @SAYYAX_GARANT
 💎DANAT UCHUN @SAYYAX_DANAT"""
@@ -2131,33 +2157,42 @@ async def receive_payment_screenshot(message: Message, state: FSMContext):
 
         screenshots = data.get("screenshots", [])
 
-        post_text = f"""🇺🇿EFOOTBALL AKKAUNT SOTILADI💰#E
+        post_text = f"""
+🇺🇿EFOOTBALL AKKAUNT SOTILADI💰#E
 
-        ⚡️ SILA: {data.get('sila')}
-        🦸 EPIC: {data.get('epic')}
-        💰 COIN: {data.get('coin')}
-        ♻️ OBMEN: {data.get('obmen')}
-        🔖 QO‘SHIMCHA: {data.get('qoshimcha')}
-        📧 ULANGAN SERVIS: {data.get('ulang')}
-        💸 NARX: {data.get('narx')}
-        💳 TO‘LOV: {data.get('tolov')}
-        🏠 MANZIL: {data.get('manzil')}
-        📩 TELEGRAM: {data.get('telegram')}
-        📞 NOMER: {data.get('nomer')}
+⚡️ SILA:{data.get('sila')}
+🦸 EPIC:{data.get('epic')}
+💰 COIN:{data.get('coin')}
+♻️ OBMEN:{data.get('obmen')}
+🔖 QO‘SHIMCHA:{data.get('qoshimcha')}
 
-        📧 ULANGAN: {data['ulang']}
+📧#ULANGAN SERVIS:{data.get('ulang')}
 
-        💸 NARX: {data['narx']}
-        💳 TOLOV: {data['tolov']}
-        🏠 MANZIL: {data['manzil']}
-        📩 TELEGRAM: {data['telegram']}
-        📞 NOMER: {data['nomer']}
-        ➖➖➖➖➖➖➖➖➖➖
-        MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL.
-        @SAVDO_GURUH_UZB | @EFOOTBALL_AKKAUNT_SAVDO_UZB
-       📄ELON UCHUN @SAYYAX_ELON
-       😎GARANT UCHUN @SAYYAX_GARANT
-       💎DANAT UCHUN @SAYYAX_DANAT"""
+💸#NARX:{data.get('narx')}
+💳#TO‘LOV:{data.get('tolov')}
+🏠#MANZIL:{data.get('manzil')}
+📩#TELEGRAM:{data.get('telegram')}
+📞#NOMER:{data.get('nomer')}
+
+📧#ULANGAN: {data['ulang']}
+
+💸#NARX: {data['narx']}
+💳#TOLOV: {data['tolov']}
+🏠#MANZIL: {data['manzil']}
+❌ bekordan bekor bezovta qimelar
+📩#TELEGRAM: {data['telegram']}
+📞#NOMER: {data['nomer']}
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL..✔️
+🤝SAVDO GURUH @SAVDO_GURUH_UZB
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+🔰KANALIMIZ🌐
+@EFOOTBALL_AKKAUNT_SAVDO_UZB
+
+
+📄ELON UCHUN @SAYYAX_ELON
+😎GARANT UCHUN @SAYYAX_GARANT
+💎DANAT UCHUN @SAYYAX_DANAT"""
 
         payment_info = f"""
 💳 <b>YANGI TO‘LOV MA'LUMOTI</b>
