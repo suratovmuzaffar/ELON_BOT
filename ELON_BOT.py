@@ -2128,7 +2128,7 @@ async def finish_screenshots(message: Message, state: FSMContext):
     if not screenshots:
         await message.answer("❌ KAMIDA BITTA RASM YUKLASHINGIZ KERAK!")
         return
-    
+
     payment_text = f"""
 💳 <b>E'LON BERISH UCHUN TO‘LOV</b>
 
