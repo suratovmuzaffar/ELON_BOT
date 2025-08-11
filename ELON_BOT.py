@@ -39,10 +39,126 @@ logging.basicConfig(level=logging.INFO)
 @router.message(F.text == "🔙 ORQAGA")
 async def go_back(message: Message, state: FSMContext):
     current_state = await state.get_state()
+    if current_state == GameSelection.waiting_for_game:
+        await message.answer("SIZ SHUNDOQ HAM BOSH MENUDASIZ ❗\n\n ⌨️ QUYIDAGI MENYUDAN BO‘LIMNI TANLANG VA BOSHLAYMIZ! 👇", reply_markup=get_game_menu())
     # -------- CLASH OF CLANS --------
-    if current_state == "ClashOfClansForm:ratusha":
+    elif current_state == ClashSelection.waiting_for_clash:
         await message.answer("QAYSI O‘YIN BO‘YICHA E'LON BERMOQCHISIZ ❓\n\n ⌨️ QUYIDAGI MENYUDAN BO‘LIMNI TANLANG VA BOSHLAYMIZ! 👇", reply_markup=get_game_menu())
         await state.set_state(GameSelection.waiting_for_game)
+
+        # -------- CLASH OF CLANS CLAN --------
+    elif current_state == ClashClanForm.nom:
+        await message.answer("QAYSI YONALISH BO‘YICHA E'LON BERMOQCHISIZ ❓\n\n ⌨️ QUYIDAGI MENYUDAN BO‘LIMNI TANLANG VA BOSHLAYMIZ! 👇", reply_markup=get_clash_type_menu())
+        await state.set_state(ClashSelection.waiting_for_clash)
+    elif current_state == ClashClanForm.lvl:
+        await message.answer(
+"🔎 KLAN NOMINI KIRITING\n\n"
+"❗️ILTIMOS, KLANINGIZNING TO‘LIQ NOMINI KIRITING. BU BILAN E'LONINGIZ ANIQROQ KO‘RINADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🛡️ Warriors Empire\n"
+"— 🏹 Uzbek Raiders\n"
+"— ⚔️ Clash Masters\n\n"
+"✅ HARFLARDA XATOLIK YOKI QISQARTMA BO‘LMASLIGIGA E'TIBOR BERING!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.nom)
+    elif current_state == ClashClanForm.liga:
+        await message.answer(
+"🏠 LVL DARAJASINI KIRITING (LVL)\n\n"
+"❗️ILTIMOS, ANIQ SON KIRITILSIN. BU BILAN AKAUNTINGIZ QIYMATI ANIQLANADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏠 9 LVL\n"
+"— 🏠 12 LVL\n"
+"— 🏠 15 LVL\n\n"
+"✅ FAQAT SON EMAS, 'LVL' SO‘ZINI HAM QO‘SHISHNI UNUTMANG!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.lvl)
+    elif current_state == ClashClanForm.obmen:
+        await message.answer(
+"🏆 LIGA DARAJASINI TANLANG\n\n"
+"❗️ILTIMOS KLANINGIZNING LIGA DARAJASINI TO‘LIQ KIRITING.\n"
+"BU MA'LUMOT E'LONINGIZNI TO‘LIQ VA ANIQ QILADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🥉 BRONZA LIGASI\n"
+"— 🥈 KUMUSH LIGASI\n"
+"— 🥇 OLTIN LIGASI\n"
+"⌨️ QUYIDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETING! 👇"
+, reply_markup=get_clash_kubik_menu())
+        await state.set_state(ClashClanForm.liga)
+    elif current_state == ClashClanForm.qoshimcha:
+        await message.answer(
+"♻️ OBMEN BORMI?\n\n"
+"❗️AGAR OBMEN (ALMASHTIRUV) MUMKIN BO‘LSA, QUYIDAGI SHAKLLARDAN BIRINI YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— ✅ HA, OBMEN BOR\n"
+"— ❌ YO‘Q, FAQAT SOTILADI\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_yes_no_menu())
+        await state.set_state(ClashClanForm.obmen)
+    elif current_state == ClashClanForm.narx:
+        await message.answer(
+"🔖 QO‘SHIMCHA MA'LUMOT KIRITASIZMI?\n\n"
+"❗️AGAR E'LONINGIZGA QO‘SHIMCHA TUSHUNTIRISH YOKI MUHIM MA'LUMOT QO‘SHMOQCHI BO‘LSANGIZ — BU YERGA YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 📝 AKKAUNTDA QO‘SHIMCHA QAHRAMONLAR BOR\n"
+"— 📝 OBMEN FAQAT MAXSUS SHAXSLARGA\n"
+"— 📝 SOTILGANIDAN KEYIN QAYTARIB OLINMAYDI\n\n"
+"✅ AGAR YO‘Q BO‘LSA, 'YO‘Q' DEB YUBORING!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.qoshimcha)
+
+    elif current_state == ClashClanForm.tolov:
+        await message.answer(
+"💸 NARXINI KIRITING\n\n"
+"❗️ILTIMOS, AKAUNT UCHUN QO‘YMOQCHI BO‘LGAN NARXNI TO‘LIQ YOZING.\n"
+"SO‘MDA MIQDOR KO‘RSATILISHI SHART!\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 💰 30 000 SO‘M\n"
+"— 💰 75 000 SO‘M\n"
+"— 💰 150 000 SO‘M\n\n"
+"✅ AGAR BEPUL BO‘LSA, 'TEKIN' DEB YOZING!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.narx)
+    elif current_state == ClashClanForm.manzil:
+        await message.answer(
+"💳 TO‘LOV TURINI KIRITING\n\n"
+"❗️ILTIMOS, QABUL QILADIGAN TO‘LOV USULINI ANIQ KO‘RSATING. (BIR NECHTASINI HAM YAZSA BO‘LADI)\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 💳 KARTA\n"
+"— 💵 NAQD\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_payment_menu())
+        await state.set_state(ClashClanForm.tolov)
+    elif current_state == ClashClanForm.telegram:
+        await message.answer(
+"🏠 MANZILINGIZNI KIRITING\n\n"
+"❗️MANZIL — TO‘LOV YOKI UCHRASHUV UCHUN MUHIM BO‘LISHI MUMKIN. ILTIMOS, ANIQ YOKI UMUMIY MANZIL YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏘️ TOSHKENT SHAHRIDA\n"
+"— 📍 ANDIJON VILOYATI, ASAKA\n"
+"— 🗺️ FAQAT ONLINE SAVDO\n\n"
+"✅ AGAR HOZIRCHA AHAMIYATLI BO‘LMASA, 'YO‘Q' DEB YOZISHINGIZ MUMKIN!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.manzil)
+    elif current_state == ClashClanForm.nomer:
+        await message.answer(
+"📩 TELEGRAM USERNAMEYINGIZNI KIRITING\n\n"
+"❗️AGAR SOTUVCHI YOKI ADMIN SIZ BILAN BOG‘LANISHI KERAK BO‘LSA, USERNAME ORQALI ALOQA QILADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— @USERNAME\n"
+"— @SAYYAXuz\n"
+"— YO'Q\n\n"
+"✅ AGAR USERNAME YO‘Q BO‘LSA 'YO‘Q' DEB YOZING!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.telegram)
+    elif current_state == ClashClanForm.screenshots:
+        await message.answer(
+"📞 TELEFON RAQAMINGIZNI KIRITING\n\n"
+"❗️AGAR USERNAME BO‘LMASA YOKI TELEFON ORQALI BOG‘LANISHNI HOHLASANGIZ, RAQAMINGIZNI TO‘LIQ KO‘RSATING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— +998 90 XXX XX XX\n"
+"— +998 99 XXX XX XX\n\n"
+"✅ ILTIMOS, XALQARO FORMATDA YOZING: '+998' BILAN BOSHLANSIN!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.nomer)
+    elif current_state == "ClashClanForm:payment_screenshot":
+        await message.answer("📸 ILTIMOS, AKKAUNTINGIZNI RASMINI YUBORING (MAX 10 TA).\n"
+        "HAMMASINI 1 TADA YUBORING MSOL 10 TASINI 1 TA QILIB. \n TUGAGACH '✅ RASMNI YUBORISH ' TUGMASINI BOSING.", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.screenshots)
+        # -------- CLASH OF CLANS BAZA --------
+    elif current_state == "ClashOfClansForm:ratusha":
+        await message.answer("QAYSI YONALISH BO‘YICHA E'LON BERMOQCHISIZ ❓\n\n ⌨️ QUYIDAGI MENYUDAN BO‘LIMNI TANLANG VA BOSHLAYMIZ! 👇", reply_markup=get_clash_type_menu())
+        await state.set_state(ClashSelection.waiting_for_clash)
     elif current_state == "ClashOfClansForm:kubik":
         await message.answer(
 "🏠 RATUSHA DARAJASINI KIRITING\n\n"
@@ -600,7 +716,7 @@ def get_game_menu():
         [KeyboardButton(text="⚔️ CLASH OF CLANS"), KeyboardButton(text="💫 BRAWL STARS")],
         [KeyboardButton(text="🔫 PUBG MOBILE"), KeyboardButton(text="⚽ EFOOTBALL")]
     ]
-    return ReplyKeyboardMarkup(keyboard=append_common_buttons(keyboard), resize_keyboard=True)
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
 def get_yes_no_menu():
     keyboard = [
         [KeyboardButton(text="✅ HA"), KeyboardButton(text="❌ YO'Q")]
@@ -637,9 +753,16 @@ def get_finish_photos_menu():
         [KeyboardButton(text="✅ RASMNI YUBORISH")]
     ]
     return ReplyKeyboardMarkup(keyboard=append_common_buttons(keyboard), resize_keyboard=True)
+def get_clash_type_menu():
+    keyboard = [
+        [KeyboardButton(text="🏠 CLASH OF CLANS BAZA"), KeyboardButton(text="🛡️ CLASH OF CLANS CLAN")]
+    ]
+    return ReplyKeyboardMarkup(keyboard=append_common_buttons(keyboard), resize_keyboard=True)
 # STATE
 class GameSelection(StatesGroup):
     waiting_for_game = State()
+class ClashSelection(StatesGroup):
+   waiting_for_clash = State()
 # FORMLAR
 class ClashOfClansForm(StatesGroup):
     ratusha = State()
@@ -649,6 +772,19 @@ class ClashOfClansForm(StatesGroup):
     obmen = State()
     qoshimcha = State()
     ulang = State()
+    narx = State()
+    tolov = State()
+    manzil = State()
+    telegram = State()
+    nomer = State()
+    screenshots = State()
+    payment_screenshot = State()
+class ClashClanForm(StatesGroup):
+    nom = State()
+    lvl = State()
+    liga = State()
+    obmen = State()
+    qoshimcha = State()
     narx = State()
     tolov = State()
     manzil = State()
@@ -741,13 +877,7 @@ async def go_home(message: Message, state: FSMContext):
 
 
 # 🔙 ORQAGA — agar foydalanuvchi hali o‘yin tanlamagan bo‘lsa, asosiy menyuga qaytadi
-@router.message(F.text == "🔙 ORQAGA")
-async def go_back(message: Message, state: FSMContext):
-    current_state = await state.get_state()
-    if current_state == GameSelection.waiting_for_game:
-        await state.clear()
-        await message.answer("🚩 BOSH SAHIFAGA QAYTTINGIZ", reply_markup=get_game_menu())
-        await state.set_state(GameSelection.waiting_for_game)
+
     # boshqa joylarda ishlatmoqchi bo‘lsang, boshqa `if`-larni qo‘shing
 # O‘yin tanlash — bu tugmalardan birini tanlagan foydalanuvchiga mos formani boshlaydi
 @router.message(StateFilter(GameSelection.waiting_for_game))
@@ -756,15 +886,8 @@ async def game_chosen(message: Message, state: FSMContext):
     game = message.text
     if game == "⚔️ CLASH OF CLANS":
         await message.answer(
-"🏠 RATUSHA DARAJASINI KIRITING\n\n"
-"❗️TO‘G‘RI YOZING. E'LONINGIZ SHUNGA BOG‘LIQ.\n\n"
-"🔰 MISOL UCHUN:\n"
-"— 🏡 6-TH\n"
-"— 🏡 9-TH\n"
-"— 🏡 12-TH\n"
-"— 🏡 15-TH\n\n"
-"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_clash_ratusha_menu())
-        await state.set_state("ClashOfClansForm:ratusha")
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_clash_type_menu())
+        await state.set_state(ClashSelection.waiting_for_clash)
 
     elif game == "💫 BRAWL STARS":
         await message.answer(
@@ -804,177 +927,326 @@ async def game_chosen(message: Message, state: FSMContext):
     else:
         await message.answer("❌ NOTOGRI OYIN TANLANDI", reply_markup=get_game_menu())
 
-    # --- CLASH OF CLANS ---
-    if current_state == ClashOfClansForm.ratusha:
-        await message.answer("QAYSI O'YIN BO'YICHA E'LON BERMOQCHISIZ ❓", reply_markup=get_game_menu())
-        await state.set_state(GameSelection.waiting_for_game)
-    elif current_state == ClashOfClansForm.kubik:
-        await message.answer("🏠 RATUSHA DARAJASINI KIRITING ✍️:", reply_markup=get_clash_ratusha_menu())
-        await state.set_state(ClashOfClansForm.ratusha)
-    elif current_state == ClashOfClansForm.skin:
-        await message.answer("🏆 KUBIK DARAJASINI KIRITING:", reply_markup=get_clash_kubik_menu())
-        await state.set_state(ClashOfClansForm.kubik)
-    elif current_state == ClashOfClansForm.gold_pass:
-        await message.answer("🦹 SKINLAR SONINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.skin)
-    elif current_state == ClashOfClansForm.obmen:
-        await message.answer("🎫 GOLD PASS OLINGANMI:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.gold_pass)
-    elif current_state == ClashOfClansForm.qoshimcha:
-        await message.answer("♻️ OBMEN BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(ClashOfClansForm.obmen)
-    elif current_state == ClashOfClansForm.ulang:
-        await message.answer("🔖 QO'SHIMCHA MA'LUMOT KIRITASIZMI (IXTIYORIY):", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.qoshimcha)
-    elif current_state == ClashOfClansForm.narx:
-        await message.answer("📧 ULANGAN SERVIS:", reply_markup=get_account_type_menu())
-        await state.set_state(ClashOfClansForm.ulang)
-    elif current_state == ClashOfClansForm.tolov:
-        await message.answer("💸 NARXINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.narx)
-    elif current_state == ClashOfClansForm.manzil:
-        await message.answer("💳 TOLOV TURINI KIRITING:", reply_markup=get_payment_menu())
-        await state.set_state(ClashOfClansForm.tolov)
-    elif current_state == ClashOfClansForm.telegram:
-        await message.answer("🏠 MANZILINGIZNI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.manzil)
-    elif current_state == ClashOfClansForm.nomer:
-        await message.answer("📩 TELEGRAM USERNAMEYINGIZNI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.telegram)
-    elif current_state == ClashOfClansForm.screenshots:
-        await message.answer("📞 TELEFON RAQAMINGIZNI KIRITING (IXTIYORIY):", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.nomer)
-    elif current_state == ClashOfClansForm.payment_screenshot:
-        await message.answer("🖼 AKKAUNT RASMLARINI YUBORING:", reply_markup=get_back_menu())
-        await state.set_state(ClashOfClansForm.screenshots)
+@router.message(StateFilter(ClashSelection.waiting_for_clash))
+async def clash_chosen(message: Message, state: FSMContext):
+    clash = message.text
+    if clash == "🏠 CLASH OF CLANS BAZA":
+        await message.answer(
+"🏠 RATUSHA DARAJASINI KIRITING\n\n"
+"❗️TO‘G‘RI YOZING. E'LONINGIZ SHUNGA BOG‘LIQ.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏡 6-TH\n"
+"— 🏡 9-TH\n"
+"— 🏡 12-TH\n"
+"— 🏡 15-TH\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_clash_ratusha_menu())
+        await state.set_state("ClashOfClansForm:ratusha")
+
+    elif clash == "🛡️ CLASH OF CLANS CLAN":
+        await message.answer(
+"🔎 KLAN NOMINI KIRITING\n\n"
+"❗️ILTIMOS, KLANINGIZNING TO‘LIQ NOMINI KIRITING. BU BILAN E'LONINGIZ ANIQROQ KO‘RINADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🛡️ Warriors Empire\n"
+"— 🏹 Uzbek Raiders\n"
+"— ⚔️ Clash Masters\n\n"
+"✅ HARFLARDA XATOLIK YOKI QISQARTMA BO‘LMASLIGIGA E'TIBOR BERING!", reply_markup=get_back_menu())
+        await state.set_state(ClashClanForm.nom)
+
     else:
-        await state.clear()
-        await message.answer("🚩 BOSH SAHIFAGAga QAYTTINGIZ", reply_markup=get_game_menu())
- # --- BRAWL STARS ---
-    if current_state == BrawlStarsForm.kubik:
-        await message.answer("🏆 KUBIKLAR SONINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.brawler)
-    elif current_state == BrawlStarsForm.brawler:
-        await message.answer("🥷 BRAWLERLAR SONINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.legendarni)
-    elif current_state == BrawlStarsForm.legendarni:
-        await message.answer("🏆 LEGENDAR BRAWLER NESHTA:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.skin)
-    elif current_state == BrawlStarsForm.skin:
-        await message.answer("🦹 SKINLAR SONIN KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.brawl_pass)
-    elif current_state == BrawlStarsForm.brawl_pass:
-        await message.answer("🎫 BRAWL PASS OLINGANMI", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.obmen)
-    elif current_state == BrawlStarsForm.obmen:
-        await message.answer("♻️ OBMEN BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(BrawlStarsForm.qoshimcha)
-    elif current_state == BrawlStarsForm.qoshimcha:
-        await message.answer("🔖 QO‘SHIMCHA MA'LUMOT KIRITASIZMI (IXTIYORIY):", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.ulang)
-    elif current_state == BrawlStarsForm.ulang:
-        await message.answer("📧 ULANGAN SERVIS:", reply_markup=get_account_type_menu())
-        await state.set_state(BrawlStarsForm.narx)
-    elif current_state == BrawlStarsForm.narx:
-        await message.answer("💸 NARXNI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.tolov)
-    elif current_state == BrawlStarsForm.tolov:
-        await message.answer("💳 TO‘LOV TURINI KIRITING:", reply_markup=get_payment_menu())
-        await state.set_state(BrawlStarsForm.manzil)
-    elif current_state == BrawlStarsForm.manzil:
-        await message.answer("📩 TELEGRAM USERNAME:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.telegram)
-    elif current_state == BrawlStarsForm.telegram:
-        await message.answer("📞 TELEFON RAQAMINGIZ (IXTIYORIY):", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.nomer)
-    elif current_state == BrawlStarsForm.nomer:
-        await message.answer("🖼 AKKAUNT RASMLARINI YUBORING:", reply_markup=get_back_menu())
-        await state.set_state(BrawlStarsForm.screenshots)
-    # --- PUBG MOBILE ---
-    elif current_state == PubgMobileForm.lvl:
-        await message.answer("〽️ LVL NI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.prokachka)
-    elif current_state == PubgMobileForm.prokachka:
-        await message.answer("🔫 PROKACHKA NI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.kilchat)
-    elif current_state == PubgMobileForm.kilchat:
-        await message.answer("🪄 KILCHATLARNI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.xsuit)
-    elif current_state == PubgMobileForm.xsuit:
-        await message.answer("🦹 X-SUIT BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(PubgMobileForm.ultimate)
-    elif current_state == PubgMobileForm.ultimate:
-        await message.answer("🧛 ULTIMATE BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(PubgMobileForm.mifik)
-    elif current_state == PubgMobileForm.mifik:
-        await message.answer("🥷 MIFIK BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(PubgMobileForm.sportcar)
-    elif current_state == PubgMobileForm.sportcar:
-        await message.answer("⚜️ ROYAL PASS OLINGANMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(PubgMobileForm.royal_pass)
-    elif current_state == PubgMobileForm.royal_pass:
-        await message.answer("🔖 QO‘SHIMCHA MA’LUMOT:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.qoshimcha)
-    elif current_state == PubgMobileForm.qoshimcha:
-        await message.answer("♻️ OBMEN BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(PubgMobileForm.obmen)
-    elif current_state == PubgMobileForm.obmen:
-        await message.answer("📧 ULANGAN SERVIS:", reply_markup=get_account_type_menu())
-        await state.set_state(PubgMobileForm.ulang)
-    elif current_state == PubgMobileForm.ulang:
-        await message.answer("💸 NARXINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.narx)
-    elif current_state == PubgMobileForm.narx:
-        await message.answer("💳 TO‘LOV USULI:", reply_markup=get_payment_menu())
-        await state.set_state(PubgMobileForm.tolov)
-    elif current_state == PubgMobileForm.tolov:
-        await message.answer("🏠 MANZILINGIZ:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.manzil)
-    elif current_state == PubgMobileForm.manzil:
-        await message.answer("📩 TELEGRAM USERNAME:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.telegram)
-    elif current_state == PubgMobileForm.telegram:
-        await message.answer("📞 TELEFON RAQAMINGIZ:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.nomer)
-    elif current_state == PubgMobileForm.nomer:
-        await message.answer("🖼 AKKAUNT RASMLARINI YUBORING:", reply_markup=get_back_menu())
-        await state.set_state(PubgMobileForm.screenshots)
-    # --- EFOOTBALL ---
-    elif current_state == EfootballForm.sila:
-        await message.answer("⚡️ SILA NI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.epic)
-    elif current_state == EfootballForm.epic:
-        await message.answer("🦸‍♂️ EPIC BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(EfootballForm.coin)
-    elif current_state == EfootballForm.coin:
-        await message.answer("💰 COIN MIQDORINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.qoshimcha)
-    elif current_state == EfootballForm.qoshimcha:
-        await message.answer("🔖 QO‘SHIMCHA MA’LUMOT:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.obmen)
-    elif current_state == EfootballForm.obmen:
-        await message.answer("♻️ OBMEN BORMI:", reply_markup=get_yes_no_menu())
-        await state.set_state(EfootballForm.ulang)
-    elif current_state == EfootballForm.ulang:
-        await message.answer("📧 ULANGAN SERVIS:", reply_markup=get_account_type_menu())
-        await state.set_state(EfootballForm.narx)
-    elif current_state == EfootballForm.narx:
-        await message.answer("💸 NARXINI KIRITING:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.tolov)
-    elif current_state == EfootballForm.tolov:
-        await message.answer("💳 TO‘LOV USULI:", reply_markup=get_payment_menu())
-        await state.set_state(EfootballForm.manzil)
-    elif current_state == EfootballForm.manzil:
-        await message.answer("📩 TELEGRAM USERNAME:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.telegram)
-    elif current_state == EfootballForm.telegram:
-        await message.answer("📞 TELEFON RAQAMINGIZ:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.nomer)
-    elif current_state == EfootballForm.nomer:
-        await message.answer("🖼 AKKAUNT RASMLARINI YUBORING:", reply_markup=get_back_menu())
-        await state.set_state(EfootballForm.screenshots)
+        await message.answer("❌ NOTOGRI OYIN TANLANDI", reply_markup=get_game_menu())
+
+
 # ROUTERLAR
 # CLASH OF CLANS
+# CLASH OF CLANS CLAN
+@router.message(StateFilter(ClashClanForm.nom))
+async def form_nom(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    await state.update_data(nom=message.text)
+    await message.answer(
+"🏠 LVL DARAJASINI KIRITING (LVL)\n\n"
+"❗️ILTIMOS, ANIQ SON KIRITILSIN. BU BILAN AKAUNTINGIZ QIYMATI ANIQLANADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏠 9 LVL\n"
+"— 🏠 12 LVL\n"
+"— 🏠 15 LVL\n\n"
+"✅ FAQAT SON EMAS, 'LVL' SO‘ZINI HAM QO‘SHISHNI UNUTMANG!"
+
+, 
+        reply_markup=get_back_menu()
+    )
+    await state.set_state(ClashClanForm.lvl)
+@router.message(StateFilter(ClashClanForm.lvl))
+async def form_lvl(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+       return
+
+    await state.update_data(lvl=message.text)
+    await message.answer(
+"🏆 KUBIK DARAJASINI KIRITING\n\n"
+"❗️ILTIMOS, ANIQ SON KIRITILSIN. BU BILAN AKAUNTINGIZ QIYMATI BAHOLANADI.\n\n\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏅 MASTER\n"
+"— 🏆 CHAEMPION\n"
+"— 👑 LAGEND\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇"
+, 
+        reply_markup=get_clash_kubik_menu()
+    )
+    await state.set_state(ClashClanForm.liga)
+@router.message(StateFilter(ClashClanForm.liga))
+async def form_liga(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    valid_liga = ["🥉BRONZA", "🥈SILVER", "🥇GOLD", "💎CRAYSTAL", "🏅MASTER", "🏆CHAEMPION", "🪙TITAN", "👑LAGEND"]
+    if message.text not in valid_liga:
+     await message.answer("⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_clash_kubik_menu())
+     return
+    await state.update_data(liga=message.text)
+    await message.answer(
+"♻️ OBMEN BORMI?\n\n"
+"❗️AGAR OBMEN (ALMASHTIRUV) MUMKIN BO‘LSA, QUYIDAGI SHAKLLARDAN BIRINI YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— ✅ HA, OBMEN BOR\n"
+"— ❌ YO‘Q, FAQAT SOTILADI\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇"
+,reply_markup=get_yes_no_menu())
+    await state.set_state(ClashClanForm.obmen)
+@router.message(StateFilter(ClashClanForm.obmen))
+async def form_obmen(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    if message.text not in ["✅ HA", "❌ YO'Q"]:
+        await message.answer("⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_yes_no_menu())
+        return
+    await state.update_data(obmen=message.text)
+    await message.answer(
+"🔖 QO‘SHIMCHA MA'LUMOT KIRITASIZMI?\n\n"
+"❗️AGAR E'LONINGIZGA QO‘SHIMCHA TUSHUNTIRISH YOKI MUHIM MA'LUMOT QO‘SHMOQCHI BO‘LSANGIZ — BU YERGA YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 📝 AKKAUNTDA QO‘SHIMCHA QAHRAMONLAR BOR\n"
+"— 📝 OBMEN FAQAT MAXSUS SHAXSLARGA\n"
+"— 📝 SOTILGANIDAN KEYIN QAYTARIB OLINMAYDI\n\n"
+"✅ AGAR YO‘Q BO‘LSA, 'YO‘Q' DEB YUBORING!"
+, 
+        reply_markup=get_back_menu()
+    )
+    await state.set_state(ClashClanForm.qoshimcha)
+@router.message(StateFilter(ClashClanForm.qoshimcha))
+async def form_qoshimcha(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    await state.update_data(qoshimcha=message.text)
+    await message.answer(
+"💸 NARXINI KIRITING\n\n"
+"❗️ILTIMOS, AKAUNT UCHUN QO‘YMOQCHI BO‘LGAN NARXNI TO‘LIQ YOZING.\n"
+"SO‘MDA MIQDOR KO‘RSATILISHI SHART!\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 💰 30 000 SO‘M\n"
+"— 💰 75 000 SO‘M\n"
+"— 💰 150 000 SO‘M\n\n"
+"✅ AGAR BEPUL BO‘LSA, 'TEKIN' DEB YOZING!"
+, reply_markup=get_back_menu())
+    await state.set_state(ClashClanForm.narx)
+@router.message(StateFilter(ClashClanForm.narx))
+async def form_narx(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    await state.update_data(narx=message.text)
+    await message.answer(
+"💳 TO‘LOV TURINI KIRITING\n\n"
+"❗️ILTIMOS, QABUL QILADIGAN TO‘LOV USULINI ANIQ KO‘RSATING. (BIR NECHTASINI HAM YAZSA BO‘LADI)\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 💳 KARTA\n"
+"— 💵 NAQD\n\n"
+"⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇"
+,reply_markup=get_payment_menu())
+    await state.set_state(ClashClanForm.tolov)
+@router.message(StateFilter(ClashClanForm.tolov))
+async def form_tolov(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    if message.text not in ["💳 KARTA", "💵 NAXT"]:
+        await message.answer("⌨️ PASDAGI MENYUDAN BO‘LIMNI TANLANG VA DAVOM ETAMIZ! 👇", reply_markup=get_payment_menu())
+        return
+    await state.update_data(tolov=message.text)
+    await message.answer(
+ "🏠 MANZILINGIZNI KIRITING\n\n"
+"❗️MANZIL — TO‘LOV YOKI UCHRASHUV UCHUN MUHIM BO‘LISHI MUMKIN. ILTIMOS, ANIQ YOKI UMUMIY MANZIL YOZING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— 🏘️ TOSHKENT SHAHRIDA\n"
+"— 📍 ANDIJON VILOYATI, ASAKA\n"
+"— 🗺️ FAQAT ONLINE SAVDO\n\n"
+"✅ AGAR HOZIRCHA AHAMIYATLI BO‘LMASA, 'YO‘Q' DEB YOZISHINGIZ MUMKIN!"
+, reply_markup=get_back_menu())
+    await state.set_state(ClashClanForm.manzil)
+@router.message(StateFilter(ClashClanForm.manzil))
+async def form_manzil(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    
+    await state.update_data(manzil=message.text)
+    await message.answer(
+"📩 TELEGRAM USERNAMEYINGIZNI KIRITING\n\n"
+"❗️AGAR SOTUVCHI YOKI ADMIN SIZ BILAN BOG‘LANISHI KERAK BO‘LSA, USERNAME ORQALI ALOQA QILADI.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— @USERNAME\n"
+"— @SAYYAXuz\n"
+"— YO'Q\n\n"
+"✅ AGAR USERNAME YO‘Q BO‘LSA 'YO‘Q' DEB YOZING!"
+, 
+        reply_markup=get_back_menu()
+    )
+    await state.set_state(ClashClanForm.telegram)
+@router.message(StateFilter(ClashClanForm.telegram))
+async def form_telegram(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    await state.update_data(telegram=message.text)
+    await message.answer(
+"📞 TELEFON RAQAMINGIZNI KIRITING\n\n"
+"❗️AGAR USERNAME BO‘LMASA YOKI TELEFON ORQALI BOG‘LANISHNI HOHLASANGIZ, RAQAMINGIZNI TO‘LIQ KO‘RSATING.\n\n"
+"🔰 MISOL UCHUN:\n"
+"— +998 90 XXX XX XX\n"
+"— +998 99 XXX XX XX\n\n"
+"✅ ILTIMOS, XALQARO FORMATDA YOZING: '+998' BILAN BOSHLANSIN!"
+,reply_markup=get_back_menu())
+    await state.set_state(ClashClanForm.nomer)
+@router.message(StateFilter(ClashClanForm.nomer))
+async def form_nomer(message: Message, state: FSMContext):
+    if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
+        return
+    
+    await state.update_data(nomer=message.text)
+    await state.update_data(screenshots=[])  # Rasmlar ro'yxatini boshlash
+    await message.answer(
+        "📸 ILTIMOS, AKKAUNTINGIZNI RASMINI YUBORING (MAX 10 TA).\n"
+        "HAMMASINI 1 TADA YUBORING MSOL 10 TASINI 1 TA QILIB. \n TUGAGACH '✅ RASMNI YUBORISH ' TUGMASINI BOSING.",
+        reply_markup=get_finish_photos_menu()
+    )
+    await state.set_state(ClashClanForm.screenshots)
+@router.message(StateFilter(ClashClanForm.screenshots), F.content_type == ContentType.PHOTO)
+async def collect_screenshots(message: Message, state: FSMContext):
+    data = await state.get_data()
+    screenshots = data.get('screenshots', [])
+    
+    if len(screenshots) >= 10:
+        await message.answer("❌ MAX 10 TA RASM YUKLASH MUMKUN!")
+        return
+    
+    photo_id = message.photo[-1].file_id
+    screenshots.append(photo_id)
+    await state.update_data(screenshots=screenshots)
+    await message.answer(f"✅ RASM QABUL QILINDI. JAMI: {len(screenshots)}/10")
+@router.message(StateFilter(ClashClanForm.screenshots), F.text == "✅ RASMNI YUBORISH")
+async def finish_screenshots(message: Message, state: FSMContext):
+    data = await state.get_data()
+    screenshots = data.get('screenshots', [])
+    
+    if not screenshots:
+        await message.answer("❌ KAMIDA BITTA RASM YUKLASHINGIZ KERAK!")
+        return
+    
+    payment_text = f"""
+💳 <b>E'LON BERISH UCHUN TO‘LOV</b>
+
+📥 <b>KARTA RAQAMI:</b> <code>{PAYMENT_CARD}</code>
+👤 <b>KARTA EGASI:</b> <b>{PAYMENT_HOLDER}</b>
+📱 <b>KARTAGA ULANGAN:</b> <b>{PAYMENTS_NUMBER}</b>
+💰 <b>TO‘LOV MIQDORI:</b> <b>{PAYMENT_AMOUNT} SO‘M</b>
+
+📋 <i>KARTA RAQAMINI NUSXA OLISH UCHUN USTIGA BOSING</i>
+
+✅ <i>TO‘LOVNI AMALGA OSHIRGACH, CHEKNI YUBORING.</i>
+"""
+    
+    await message.answer(payment_text,parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+    await message.answer("📃 <b>TO‘LOV CHEKINI (SKRINSHOTINI) YUBORING:</b>", parse_mode="HTML")
+    await state.set_state(ClashOfClansForm.payment_screenshot)
+@router.message(StateFilter(ClashOfClansForm.payment_screenshot), F.content_type == ContentType.PHOTO)
+async def receive_payment_screenshot(message: Message, state: FSMContext):
+    try:
+        data = await state.get_data()
+        payment_screenshot = message.photo[-1].file_id
+        user_id = message.from_user.id
+        username = message.from_user.username or "USERNAME YOQ"
+        full_name = message.from_user.full_name
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        screenshots = data.get("screenshots", [])
+
+        post_text = f"""
+🇺🇿CLAN SOTILADI💰#A
+
+🔎 KLAN NOMI:{data['nom']}
+🏠 LV:{data['lvl']}
+🔖 QOSHIMCHA:{data['qoshimcha']}
+♻️ OBMEN:{data['obmen']}
+
+💸#NARX:{data['narx']}
+💳#TOLOV:{data['tolov']}
+🏠#MANZIL:{data['manzil']}
+❌ bekordan bekor bezovta qimelar
+📩#TELEGRAM: {data['telegram']}
+📞#NOMER: {data['nomer']}
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+MASHKALARGA ALDANISHNI XOXLAMASANG ADMIN ORQALI SAVDO QIL..✔️
+🤝SAVDO GURUH @SAVDO_GURUH_UZB
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+🔰KANALIMIZ🌐
+@CLASH_OF_CLANS_AKKAUNT_SAVDO_UZB
+
+
+📄ELON UCHUN @SAYYAX_ELON
+😎GARANT UCHUN @SAYYAX_GARANT
+💎DANAT UCHUN @SAYYAX_DANAT"""
+
+        payment_info = f"""
+💳 <b>YANGI TO‘LOV MA'LUMOTI</b>
+
+👤 <b>FOYDALANUVCHI:</b> <a href='tg://user?id={user_id}'>{full_name}</a>
+🆔 <b>USER ID:</b> <code>{user_id}</code>
+📱 <b>USERNAME:</b> @{username if username else 'USERNAME YO‘Q'}
+⏰ <b>TO‘LOV VAQTI:</b> {current_time}
+💰 <b>TO‘LOV MIQDORI:</b> <b>{PAYMENT_AMOUNT} SO‘M</b>
+"""
+
+        # Callback tugmalari
+        admin_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✅ Tastiqlash", callback_data=f"confirm_post_{user_id}_clashclan"),
+                InlineKeyboardButton(text="❌ Bekor qilish", callback_data=f"cancel_post_{user_id}_clashclan")
+            ]
+        ])
+
+        # Medialar
+        media_group = [
+            InputMediaPhoto(media=photo_id, caption=post_text if i == 0 else None)
+            for i, photo_id in enumerate(screenshots)
+        ]
+
+        # Adminga yuborish
+        await bot.send_media_group(chat_id=ADMIN_ID, media=media_group)
+        await bot.send_photo(chat_id=ADMIN_ID, photo=payment_screenshot, caption=payment_info, reply_markup=admin_keyboard,parse_mode="HTML")
+
+        # Callback uchun saqlash
+        pending_posts[user_id] = {
+            "post_text": post_text,
+            "screenshots": screenshots
+        }
+
+        # Userga xabar
+        await message.answer("✅ TOLOV CHEKI QABUL QILINDI VA ADMINGA YUBORILDI. TEZ ORADA JAVOB OLASIZ.", reply_markup=get_game_menu())
+        await state.clear()
+        await state.set_state(GameSelection.waiting_for_game)
+
+    except Exception as e:
+        await message.answer(f"❌ XATOLIK: {e}")
+
+
+# CLASH OF CLANS BAZA
 @router.message(StateFilter(ClashOfClansForm.ratusha))
 async def form_ratusha(message: Message, state: FSMContext):
     if message.text in ["🔙 ORQAGA", "🚩 BOSH SAHIFAGA"]:
@@ -2252,6 +2524,8 @@ async def handle_admin_decision(callback_query: CallbackQuery):
 
         if game == "clash":
             channel_id = CLASH_OF_CLANS_ID
+        elif game == "clashclan":
+            channel_id = CLASH_OF_CLANS_ID
         elif game == "brawl":
             channel_id = BRAWL_STARS_ID
         elif game == "pubg":
@@ -2286,6 +2560,7 @@ async def handle_admin_decision(callback_query: CallbackQuery):
         await callback_query.answer()
 
     except Exception as e:
+
         await callback_query.message.reply(f"❌ CALLBACK XATOLIK: {e}")
 # Barcha boshqa xabarlarni handle qilish
 @router.message()
@@ -2303,16 +2578,16 @@ async def main():
     bot = Bot(token=API_TOKEN)
     storage = MemoryStorage()
     dp = Dispatcher(storage=storage)
-    
+
     # Routerni qo'shish
     dp.include_router(router)
-    
+
     # Botni ishga tushirish haqida xabar
     await bot.send_message(ADMIN_ID, "🤖 BOT ISHGA TUSHDI!")
-    
+
     # Pollingni boshlash
     await dp.start_polling(bot)
-
+    
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
