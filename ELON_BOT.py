@@ -1164,8 +1164,8 @@ async def finish_screenshots(message: Message, state: FSMContext):
     
     await message.answer(payment_text,parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
     await message.answer("📃 <b>TO‘LOV CHEKINI (SKRINSHOTINI) YUBORING:</b>", parse_mode="HTML")
-    await state.set_state(ClashOfClansForm.payment_screenshot)
-@router.message(StateFilter(ClashOfClansForm.payment_screenshot), F.content_type == ContentType.PHOTO)
+    await state.set_state(ClashClanForm.payment_screenshot)
+@router.message(StateFilter(ClashClanForm.payment_screenshot), F.content_type == ContentType.PHOTO)
 async def receive_payment_screenshot(message: Message, state: FSMContext):
     try:
         data = await state.get_data()
@@ -1182,6 +1182,7 @@ async def receive_payment_screenshot(message: Message, state: FSMContext):
 
 🔎 KLAN NOMI:{data['nom']}
 🏠 LV:{data['lvl']}
+🔮 LIGA:{data["liga"]}
 🔖 QOSHIMCHA:{data['qoshimcha']}
 ♻️ OBMEN:{data['obmen']}
 
