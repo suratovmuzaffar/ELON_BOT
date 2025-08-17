@@ -26,6 +26,7 @@ PAYMENT_AMOUNT = os.getenv("PAYMENT_AMOUNT")
 PAYMENTS_NUMBER = os.getenv("PAYMENTS_NUMBER")
 CLASH_OF_CLANS_ID = os.getenv("CLASH_OF_CLANS_ID")
 BRAWL_STARS_ID = os.getenv("BRAWL_STARS_ID")
+BRAWL_STARS_ID2 = os.getenv("BRAWL_STARS_ID2")
 PUBG_MOBILE_ID = os.getenv("PUBG_MOBILE_ID")
 EFOOTBALL_ID = os.getenv("EFOOTBALL_ID")
 # ✅ ASOSIY OBYEKTLAR NAVIGATSIYA
@@ -1158,7 +1159,7 @@ async def finish_screenshots(message: Message, state: FSMContext):
 💰 <b>TO‘LOV MIQDORI:</b> <b>{PAYMENT_AMOUNT} SO‘M</b>
 
 📋 <i>KARTA RAQAMINI NUSXA OLISH UCHUN USTIGA BOSING</i>
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 ✅ <i>TO‘LOVNI AMALGA OSHIRGACH, CHEKNI YUBORING.</i>
 """
     
@@ -2528,7 +2529,7 @@ async def handle_admin_decision(callback_query: CallbackQuery):
         elif game == "clashclan":
             channel_id = CLASH_OF_CLANS_ID
         elif game == "brawl":
-            channel_id = BRAWL_STARS_ID
+            channel_id = BRAWL_STARS_ID2
         elif game == "pubg":
             channel_id = PUBG_MOBILE_ID
         elif game == "ef":
